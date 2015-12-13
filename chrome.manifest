@@ -2,4 +2,9 @@ content xulman content/
 locale xulman en-US locale/en-US/
 locale xulman ja locale/ja/
 
-component {4b0f0f54-9fa4-4f10-8271-ae7cff408724} components/Startup.js
+resource xulman-modules modules/
+
+component {4b0f0f54-9fa4-4f10-8271-ae7cff408724} components/GlobalService.js
+contract @myokoym.net/xulman/startup;1 {4b0f0f54-9fa4-4f10-8271-ae7cff408724}
+category profile-after-change XulmanGlobalService @myokoym.net/xulman/startup;1
+category command-line-handler m-xulman @myokoym.net/xulman/startup;1
