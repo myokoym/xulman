@@ -75,6 +75,7 @@ GlobalService.prototype = {
     {
         dump("handle\n");
         var arg = {
+            disable: CLHHelper.getStringValue('xulman-disable', aCommandLine),
             list: CLHHelper.getBooleanValue('xulman-list', aCommandLine)
         };
 
@@ -87,9 +88,17 @@ GlobalService.prototype = {
                 addons.filter(function(addon) {
                   return addon.type == "extension"
                 }).map(function(addon) {
-                  return addon.name + ": " + addon.getResourceURI().spec
+                  return addon.name + ": " + addon.id + ": " + addon.getResourceURI().spec
                 }).join("\n")
               );
+            });
+            return;
+        } else if (arg.disable) {
+            dump(arg.disable + "\n");
+            aCommandLine.preventDefault = true;
+            AddonManager.getAddonByID(arg.disable, function(addon) {
+              dump(addon.id);
+              if (addon.isActive) addon.userDisabled = addon.isActive;
             });
             return;
         }
@@ -99,6 +108,7 @@ GlobalService.prototype = {
     {
         if (!this._helpInfo)
             this._helpInfo =CLHHelper.formatHelpInfo({
+                'xulman-disable' : 'Disables an active add-on.',
                 'xulman-list' : 'Shows installed add-on list.'
             });
         return this._helpInfo;
